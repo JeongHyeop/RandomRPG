@@ -1,0 +1,28 @@
+fileFormatVersion: 2
+guid: f5b32d7410f00c047b4f806e2322f2ac
+timeCreated: 1500701803
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Engebrechtre
+  fontNames:
+  - Engebrechtre
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: c56e1cc223b4263438a93813d1fd4416, type: 3}
+  - {fileID: 12800000, guid: 1b6f5fc5448330b46956f41316afc966, type: 3}
+  - {fileID: 12800000, guid: 8eb204873d691a64db4f0c089707a4f0, type: 3}
+  - {fileID: 12800000, guid: 36abefa76b5fd3d4cb459146589694f8, type: 3}
+  - {fileID: 12800000, guid: ade2e9d70f945434685d0774cfd56fd6, type: 3}
+  - {fileID: 12800000, guid: e9dbce0e2945fd74aa304651f40e341f, type: 3}
+  - {fileID: 12800000, guid: 6ab25cee1966adc4e8590d8f4765a799, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 799214ca3fa9fa741a8f9a2eb5a22a8e
+timeCreated: 1500701803
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Segan
+  fontNames:
+  - Segan
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
