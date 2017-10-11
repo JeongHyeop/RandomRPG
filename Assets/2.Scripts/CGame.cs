@@ -63,13 +63,14 @@ public class CGame : MonoBehaviour
 
         //테이블 로드
         dataTable = (CGameTable)gameObject.AddComponent(typeof(CGameTable));
-
+        
         //플레이어 로드
         player = (Player)gameObject.AddComponent(typeof(Player));
 
-        DontDestroyOnLoad(this);
-
+        //사운드 로드
         SoundLoad();
+
+        DontDestroyOnLoad(this);        
     }
 
 
@@ -110,7 +111,7 @@ public class CGame : MonoBehaviour
         player.playerData.gold = 100;        
         player.playerData.point = 3;          
 
-        LocalDB_save();        
+        LocalDB_save();
     }
 
     public void LocalDB_save()
@@ -296,7 +297,7 @@ public class CGame : MonoBehaviour
     // GameObject 텍스처 변경.
     public void GameObject_set_texture(GameObject go, Texture2D _tx)
     {
-        go.GetComponent<Renderer>().material.mainTexture = _tx;
+      //  go.GetComponent<Renderer>().material.Texture = _tx;
         //go.GetComponent<Renderer>().material.color = new Color(1,1,1,1.0f);
     }
 

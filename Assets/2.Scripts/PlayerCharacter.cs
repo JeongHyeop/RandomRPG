@@ -423,7 +423,8 @@ public class PlayerCharacter : Character
                 return;
             }
 
-            enemy.hp = enemy.hp - (attack - enemy.defence) <= 0 ? 0 : enemy.hp - (attack - enemy.defence);            
+            enemy.hp = enemy.hp - (attack - enemy.defence) <= 0 ? 0 : enemy.hp - (attack - enemy.defence);      
+                  
         }
         else
             characterAnimator.Play("Melee Right Attack 03");

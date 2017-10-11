@@ -40,6 +40,7 @@ public class HuntScene : MonoBehaviour {
     bool bOptionActive = false;
     public GameObject difficultyPanel;
     public Image[] difficultyImg;
+    HuntSceneUI huntUIManager;
 
     //결과
     public GameObject resultPanel;
