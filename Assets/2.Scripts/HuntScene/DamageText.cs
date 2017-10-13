@@ -14,10 +14,10 @@ public class DamageText : MonoBehaviour {
 
         UI_Text.text = strDam;
 
-        StartCoroutine(setInActive());
+        StartCoroutine(SetInActive());
     }
 
-    IEnumerator setInActive()
+    IEnumerator SetInActive()
     {
         float time = 0.0f;
 

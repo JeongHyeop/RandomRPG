@@ -81,6 +81,7 @@ public class HuntScene : MonoBehaviour {
         skillBtnAnim = skillBtnImg.GetComponent<Animator>();
         skillBtnAnim.SetBool("BigAndSmall", skillActive);       
 
+
         //버튼
         optionButton = GameObject.Find("OptionButton").GetComponent<Button>();
         optionButton.onClick.AddListener(OptionButton);

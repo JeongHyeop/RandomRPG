@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
         playerData = new PlayerData();
         playerCharacter = new PlayerCharacter();
         playerCharacter.Init();        
+        
     }
     void Update(){        
     }
