@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,20 +32,34 @@ public class HuntSceneUI : MonoBehaviour
             return;
         }
         s_instance = this;
+        
     }
 
     public void SetDamageText(GameObject target, float damage)
     {
-        Vector3 targetpos = transform.position; //메인카메라.WorldToScreenPoint(target.transform.localPosition)으로 변경;
-        targetpos = new Vector3(targetpos.x, targetpos.y + 200);
+        Debug.Log("damtext");
+        Debug.Log(damage);
+        Vector3 targetpos = Camera.main.WorldToScreenPoint(target.transform.localPosition);
+        targetpos = new Vector3(targetpos.x/2, targetpos.y/2 );
         GameObject damtext = CGame.Instance.GameObject_from_prefab("DamageText");
-        damtext.transform.localPosition = targetpos;
-        while (time <= 1.0f)
-        {
-            time += Time.deltaTime;
-            damtext.transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y + 4, 0);
-        }
-        Destroy(damtext);
+        //damtext.transform.parent = gameObject.transform.Find("Canvas");
+        //damtext.transform.SetParent(transform.Find("Canvas"));
+        damtext.GetComponent<Transform>().SetParent(GameObject.Find("Canvas").GetComponent<Transform>());
+        MoveText(damtext, targetpos);
+        
 
     }
+    public void MoveText(GameObject damtext , Vector3 targetpos)
+    {
+        time = 0f;
+        damtext.transform.localPosition = targetpos;
+        while (time <= 2.0f)
+        {
+            time += Time.deltaTime;
+            damtext.transform.Translate(transform.localPosition.x, transform.localPosition.y + 4, 0);
+        }
+       // Destroy(damtext);
+    }
+
+    
 }
