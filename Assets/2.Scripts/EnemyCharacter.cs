@@ -261,7 +261,7 @@ public class EnemyCharacter : Character
         }
         
         playerCharacter.hp = playerCharacter.hp - (attack - playerCharacter.defence) <= 0 ? 0 : playerCharacter.hp - (attack - playerCharacter.defence);
-        
+        HuntSceneUI.Instance.SetDamageText(playerCharacter.characterObject, attack - playerCharacter.defence);
         //HuntSceneUI.Instance.SetDamageText(playerCharacter.gameObject , attack - playerCharacter.defence);
         ActSet(eCharacterAct.idle);
     }

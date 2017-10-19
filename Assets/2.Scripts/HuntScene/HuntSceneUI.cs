@@ -37,29 +37,37 @@ public class HuntSceneUI : MonoBehaviour
 
     public void SetDamageText(GameObject target, float damage)
     {
+        string damagestr = damage.ToString();
         Debug.Log("damtext");
         Debug.Log(damage);
         Vector3 targetpos = Camera.main.WorldToScreenPoint(target.transform.localPosition);
-        targetpos = new Vector3(targetpos.x/2, targetpos.y/2 );
+        targetpos = new Vector3(targetpos.x -Screen.width/2 , targetpos.y - Screen.height/2 +200 );
         GameObject damtext = CGame.Instance.GameObject_from_prefab("DamageText");
-        //damtext.transform.parent = gameObject.transform.Find("Canvas");
-        //damtext.transform.SetParent(transform.Find("Canvas"));
         damtext.GetComponent<Transform>().SetParent(GameObject.Find("Canvas").GetComponent<Transform>());
-        MoveText(damtext, targetpos);
+        damtext.GetComponent<Text>().text = damagestr;
         
+        MoveText(damtext, targetpos);
+        StartCoroutine(Move(damtext, targetpos));
 
     }
     public void MoveText(GameObject damtext , Vector3 targetpos)
     {
-        time = 0f;
-        damtext.transform.localPosition = targetpos;
-        while (time <= 2.0f)
-        {
-            time += Time.deltaTime;
-            damtext.transform.Translate(transform.localPosition.x, transform.localPosition.y + 4, 0);
-        }
+        
        // Destroy(damtext);
     }
-
+    IEnumerator Move (GameObject damtext , Vector3 targetpos)
+    {
+        float time = 0f;
+        
+        damtext.transform.localPosition = targetpos;
+        while (time <= 1.0f)
+        {
+            time += Time.deltaTime;
+            damtext.transform.localPosition = new Vector3(damtext.transform.localPosition.x, damtext.transform.localPosition.y + 4, 0);
+            yield return null;
+        }
+        yield return new WaitForSeconds(0.1f);
+        Destroy(damtext);
+    }
     
 }
