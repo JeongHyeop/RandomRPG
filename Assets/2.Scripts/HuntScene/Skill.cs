@@ -72,10 +72,15 @@ public class Skill : MonoBehaviour {
     IEnumerator Fire()
     {
         if (characterType == eCharacterType.eCharacterType_Hero)
+        {
             enemy.hp = enemy.hp - damage <= 0 ? 0 : enemy.hp - damage;
+            HuntSceneUI.Instance.SetDamageText(enemy.playerCharacter.characterObject, damage);
+        }
         else if (characterType == eCharacterType.eCharacterType_Enemy)
+        {
             player.playerCharacter.hp = player.playerCharacter.hp - damage <= 0 ? 0 : player.playerCharacter.hp - damage;
-
+            HuntSceneUI.Instance.SetDamageText(player.playerCharacter.characterObject, damage);
+        }
         active = true;
         yield return new WaitForSeconds(1.0f);
         active = false;        

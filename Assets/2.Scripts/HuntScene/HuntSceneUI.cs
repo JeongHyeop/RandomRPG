@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
 public class HuntSceneUI : MonoBehaviour
 {
 
@@ -38,23 +37,19 @@ public class HuntSceneUI : MonoBehaviour
     public void SetDamageText(GameObject target, float damage)
     {
         string damagestr = damage.ToString();
-        Debug.Log("damtext");
-        Debug.Log(damage);
+        int randompos = UnityEngine.Random.Range(-15, 15);
+        Debug.Log(randompos);
         Vector3 targetpos = Camera.main.WorldToScreenPoint(target.transform.localPosition);
-        targetpos = new Vector3(targetpos.x -Screen.width/2 , targetpos.y - Screen.height/2 +200 );
+        targetpos = new Vector3(targetpos.x -Screen.width/2+105 + randompos, targetpos.y - Screen.height/2 +150 );
         GameObject damtext = CGame.Instance.GameObject_from_prefab("DamageText");
         damtext.GetComponent<Transform>().SetParent(GameObject.Find("Canvas").GetComponent<Transform>());
         damtext.GetComponent<Text>().text = damagestr;
         
-        MoveText(damtext, targetpos);
+       
         StartCoroutine(Move(damtext, targetpos));
 
     }
-    public void MoveText(GameObject damtext , Vector3 targetpos)
-    {
-        
-       // Destroy(damtext);
-    }
+ 
     IEnumerator Move (GameObject damtext , Vector3 targetpos)
     {
         float time = 0f;
