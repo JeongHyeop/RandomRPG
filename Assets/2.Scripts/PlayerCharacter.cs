@@ -424,7 +424,7 @@ public class PlayerCharacter : Character
             }
 
             enemy.hp = enemy.hp - (attack - enemy.defence) <= 0 ? 0 : enemy.hp - (attack - enemy.defence);
-            HuntSceneUI.Instance.SetDamageText(enemy.characterObject, attack - enemy.defence);     
+            HuntSceneUI.Instance.SetDamageText(enemy.characterObject, (attack - enemy.defence) <= 0 ? 0 : (attack - enemy.defence));     
         }
         else
             characterAnimator.Play("Melee Right Attack 03");
