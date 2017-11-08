@@ -5,11 +5,15 @@ using UnityEngine;
 using UnityEngine.UI;
 public class HuntSceneUI : MonoBehaviour
 {
-
     private Transform damagePool;
     private List<DamageText> ldamagetext;
     private float time = 0f;
     private static HuntSceneUI s_instance = null; //싱글톤
+
+    //정협 화살표 작업 2017.11.08
+    public GameObject arrowObject;
+    private Animator arrowAnimator;       
+            
     public static HuntSceneUI Instance
     {
         get
@@ -31,7 +35,10 @@ public class HuntSceneUI : MonoBehaviour
             return;
         }
         s_instance = this;
-        
+
+        //Arrow Anim 연결
+        arrowAnimator = CGame.Instance.GameObject_get_child(arrowObject, "Arrow").GetComponent<Animator>();
+        arrowAnimator.SetBool("ForwardMove", true);
     }
 
     public void SetDamageText(GameObject target, float damage)
@@ -47,7 +54,6 @@ public class HuntSceneUI : MonoBehaviour
         
        
         StartCoroutine(Move(damtext, targetpos));
-
     }
  
     IEnumerator Move (GameObject damtext , Vector3 targetpos)
@@ -64,5 +70,9 @@ public class HuntSceneUI : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         Destroy(damtext);
     }
-    
+    public void SetArrowSign(GameObject _playerCharacter, GameObject _enemyCharacter)
+    {
+        arrowObject.transform.position = new Vector3(_playerCharacter.transform.position.x, 2.0f, _playerCharacter.transform.position.z);        
+        arrowObject.transform.LookAt(_enemyCharacter.transform);       
+    }  
 }

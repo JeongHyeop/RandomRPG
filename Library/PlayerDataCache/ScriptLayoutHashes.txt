@@ -107,6 +107,7 @@ e9bdabf9265d758d56f01bb188916fa8 UnityEngine.Networking.dll:UnityEngine.Networki
 73843688b51256aed059f049c540bca8 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransformChild
 528ea1fd7c01796fc60c4e2f172ea229 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransformVisualizer
 8917dd36d0f896ed6a3488367ce9deb0 Assembly-CSharp.dll:.Popup
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.HuntSceneUI
 682011702fdb2029d1a1b6490dd254ae Assembly-CSharp.dll:.Skill
 8ccf0d1c63048abd4e53a5d375250f6a Assembly-CSharp.dll:.FTCT02_StopCam
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.MoblieSetting
@@ -144,6 +145,7 @@ e9bdabf9265d758d56f01bb188916fa8 UnityEngine.Networking.dll:UnityEngine.Networki
 528ea1fd7c01796fc60c4e2f172ea229 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransformVisualizer
 052d82b21696a523e77aad98a7de3787 Assembly-CSharp.dll:.MainMenuScene
 bc66c232da73005ed660343f2dfb3a85 Assembly-CSharp.dll:.HuntScene
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.DamageText
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.Callbacks.PlayModeRunnerCallback
 5f2ad81aa8994e8fbe25d1e57afe6773 UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.PlaymodeTestsController
 64eb32cc721b1cc68a91ed57461e188c UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.Callbacks.RemoteTestResultSender

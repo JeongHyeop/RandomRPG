@@ -79,8 +79,7 @@ public class HuntScene : MonoBehaviour {
         skillBtnImg = CGame.Instance.GameObject_get_child(skillAttackButton.gameObject, "SkillImg").GetComponent<Image>();
         skillAttackButton.onClick.AddListener(SkillButton);
         skillBtnAnim = skillBtnImg.GetComponent<Animator>();
-        skillBtnAnim.SetBool("BigAndSmall", skillActive);       
-
+        skillBtnAnim.SetBool("BigAndSmall", skillActive);  
 
         //버튼
         optionButton = GameObject.Find("OptionButton").GetComponent<Button>();
@@ -197,6 +196,9 @@ public class HuntScene : MonoBehaviour {
             enemyHP.value = 0;
             enemy.ActSet(eCharacterAct.die);
         }
+
+        //적 방향표시
+        HuntSceneUI.Instance.SetArrowSign(player.playerCharacter.characterObject, enemy.characterObject);
     }
 
     int nTemp = 0;

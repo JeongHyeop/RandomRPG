@@ -18,7 +18,25 @@ public class JoyStick : MonoBehaviour {
     }
     public void Move()
     {
-        Vector3 touchPos = Input.mousePosition;
+        Vector3 touchPos = Vector3.zero;
+
+        if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
+        {            
+            Touch[] touches = Input.touches;
+            for (int i = 0; i < Input.touchCount; i++)
+            {
+                if (touches[i].position.x <= CGame.Instance.width / 2)
+                {
+                    touchPos = touches[i].position;
+                    break;
+                }
+            }
+            if (touchPos == Vector3.zero)
+                return;
+        }
+        else
+            touchPos = Input.mousePosition;
+
         axis = (touchPos - defaultCenter).normalized;
 
         //if(axis.x >= -0.75f && axis.x <= 0.75 && axis.y > 0)

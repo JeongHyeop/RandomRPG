@@ -121,7 +121,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 0.02
+  bundleVersion: 0.03
   preloadedAssets: []
   metroInputSource: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -143,9 +143,9 @@ PlayerSettings:
   applicationIdentifier:
     Android: com.JHProgram.RandomRPG
   buildNumber: {}
-  AndroidBundleVersionCode: 2
-  AndroidMinSdkVersion: 16
-  AndroidTargetSdkVersion: 0
+  AndroidBundleVersionCode: 3
+  AndroidMinSdkVersion: 19
+  AndroidTargetSdkVersion: 25
   AndroidPreferredInstallLocation: 1
   aotOptions: 
   stripEngineCode: 1

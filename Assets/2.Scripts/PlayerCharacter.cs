@@ -384,7 +384,8 @@ public class PlayerCharacter : Character
         CGame.Instance.PlaySound((int)eSound.eSound_Jump, GameObject.Find("Main Camera"), false);
         characterAnimator.Play("Jump");
         fActDelayTime = 0;
-        ActSet(eCharacterAct.run);
+        characterObject.transform.Translate(Vector3.up * 2.0f * Time.deltaTime);
+        ActSet(eCharacterAct.idle);
     }
     public override void ActProcess()
     {
