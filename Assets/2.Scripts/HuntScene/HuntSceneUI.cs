@@ -45,13 +45,11 @@ public class HuntSceneUI : MonoBehaviour
     {
         string damagestr = damage.ToString();
         int randompos = UnityEngine.Random.Range(-15, 15);
-        Debug.Log(randompos);
         Vector3 targetpos = Camera.main.WorldToScreenPoint(target.transform.localPosition);
         targetpos = new Vector3(targetpos.x -Screen.width/2+105 + randompos, targetpos.y - Screen.height/2 +150 );
         GameObject damtext = CGame.Instance.GameObject_from_prefab("DamageText");
         damtext.GetComponent<Transform>().SetParent(GameObject.Find("Canvas").GetComponent<Transform>());
-        damtext.GetComponent<Text>().text = damagestr;
-        
+        damtext.GetComponent<Text>().text = damagestr;        
        
         StartCoroutine(Move(damtext, targetpos));
     }

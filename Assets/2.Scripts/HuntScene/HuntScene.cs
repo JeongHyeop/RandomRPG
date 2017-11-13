@@ -30,6 +30,8 @@ public class HuntScene : MonoBehaviour {
     Button jumpButton;
     Button attackButton;
     Button skillAttackButton;
+    Button autoButton;
+    public Animator autoBtnAnim;
     Image skillBtnImg;
     bool skillActive = true;    
     Animator skillBtnAnim;
@@ -57,29 +59,32 @@ public class HuntScene : MonoBehaviour {
     eBattleResult ebattleResult;
     float playTime = 0;
 
-	void Start () {
+    void Start () {
         //DB 로드
         CGame.Instance.LocalDB_load();
 
         //맵 로드
         MapLoad();
-        
+
         //Enemy 로드
         EnemyLoad();
 
         //Player 로드
         PlayerLoad();
-        
+
         //조작 버튼
         jumpButton = GameObject.Find("JumpButton").GetComponent<Button>();
         jumpButton.onClick.AddListener(Jump);
         attackButton = GameObject.Find("AttackButton").GetComponent<Button>();
         attackButton.onClick.AddListener(Attack);
         skillAttackButton = GameObject.Find("SkillButton").GetComponent<Button>();
+        autoButton = GameObject.Find("AutoButton").GetComponent<Button>();
+        autoButton.onClick.AddListener(AutoButton);
+        autoBtnAnim.SetBool("ZRotation", player.playerCharacter.bAutoMode);
         skillBtnImg = CGame.Instance.GameObject_get_child(skillAttackButton.gameObject, "SkillImg").GetComponent<Image>();
         skillAttackButton.onClick.AddListener(SkillButton);
         skillBtnAnim = skillBtnImg.GetComponent<Animator>();
-        skillBtnAnim.SetBool("BigAndSmall", skillActive);  
+        skillBtnAnim.SetBool("BigAndSmall", skillActive);
 
         //버튼
         optionButton = GameObject.Find("OptionButton").GetComponent<Button>();
@@ -90,7 +95,7 @@ public class HuntScene : MonoBehaviour {
 
         //배틀 로직
         BattleStateSet(eBattleState.eBattleState_init);
-	}
+    }
 
     void Update()
     {
@@ -180,7 +185,11 @@ public class HuntScene : MonoBehaviour {
         //플레이어 업데이트
         player.playerCharacter.PlayerUpdate();
         if (player.playerCharacter.hp > 0)
+        {
             playerHP.value = (float)player.playerCharacter.hp / (float)player.playerCharacter.maxHP;
+            if (player.playerCharacter.bAutoMode == true && player.playerCharacter.bSkillActive == true)
+                SkillButton();
+        }
         else
         {
             playerHP.value = 0;
@@ -253,14 +262,22 @@ public class HuntScene : MonoBehaviour {
                     nTemp += 1;
                     CGame.Instance.PlaySound((int)eSound.eSound_Coin, GameObject.Find("Main Camera"), false);
                     goldText.text = nTemp.ToString();
+                    if (Input.GetMouseButtonUp(0))
+                    {
+                        nTemp = nGold - 10;
+                        delayTime = 0;
+                    }
                 }
                 else
                 {
-                    player.playerData.gold += nGold;
-                    player.updateExp += enemy.exp;                                  
+                    if (delayTime > 2.0f)
+                    {
+                        player.playerData.gold += nGold;
+                        player.updateExp += enemy.exp;
 
-                    CGame.Instance.LocalDB_save();
-                    CGame.Instance.SceneChange(3);
+                        CGame.Instance.LocalDB_save();
+                        CGame.Instance.SceneChange(3);
+                    }
                 }
                 break;
             case eBattleResult.eBattleResult_EnemyWin:
@@ -311,17 +328,17 @@ public class HuntScene : MonoBehaviour {
         enemy.EnemyCharacterLoad(nEnemyIndex);
         enemyObject = enemy.characterObject;
 
-        //Ui
+        //UI
         enemyLevelText.text = enemy.level.ToString();
         enemyNickNameText.text = enemy.name;
     }
+
     void MapLoad()
     {
         //난이도에 맞춰서 맵로딩 배율 조정
-        List<int> difficulty1 = new List<int>();    //40%
-        List<int> difficulty2 = new List<int>();    //30%
-        List<int> difficulty3 = new List<int>();    //15%
-        List<int> difficulty4 = new List<int>();    //14%   //보너스 맵 1%
+        List<List<int>> difficulty = new List<List<int>>();
+        for (int i = 0; i < 4; i++)             //네번 도는 이유는 난이도가 4까지 있기 때문
+            difficulty.Add(new List<int>());
 
         int size = CGame.Instance.dataTable.dataTableHunt.Length;
         
@@ -329,36 +346,58 @@ public class HuntScene : MonoBehaviour {
         {
             DataTable_Hunt newData = CGame.Instance.dataTable.dataTableHunt[i];
             if (newData.levelOfDifficulty == 1)
-                difficulty1.Add(newData.index);
+                difficulty[0].Add(newData.index);
             else if (newData.levelOfDifficulty == 2)
-                difficulty2.Add(newData.index);
+                difficulty[1].Add(newData.index);
             else if (newData.levelOfDifficulty == 3)
-                difficulty3.Add(newData.index);
+                difficulty[2].Add(newData.index);
             else if (newData.levelOfDifficulty == 4)
-                difficulty4.Add(newData.index);
+                difficulty[3].Add(newData.index);
         }
 
-        int[] nDifficultyIndex = { Random.RandomRange(0, difficulty1.Count), Random.RandomRange(0, difficulty2.Count), Random.RandomRange(0, difficulty3.Count), Random.RandomRange(0, difficulty4.Count) };
-   
+        //각 난이도별 맵이있기 때문에 그 중 한가지 선별 작업
+        int[] nDifficultyIndex = { Random.RandomRange(0, difficulty[0].Count), Random.RandomRange(0, difficulty[1].Count), Random.RandomRange(0, difficulty[2].Count), Random.RandomRange(0, difficulty[3].Count) };
+
+        //여기서 레벨 디자인(난이도 조정)
+        int[] nAdjust = new int[4];
+        int playerLevel = CGame.Instance.player.playerData.level;
+        
+        if (playerLevel < 20)
+        {
+            nAdjust[0] = 0; nAdjust[1] = 1; nAdjust[2] = 2; nAdjust[3] = 3;
+        }
+        else if (playerLevel < 40)
+        {
+            nAdjust[0] = 1; nAdjust[1] = 0; nAdjust[2] = 2; nAdjust[3] = 3;
+        }
+        else if (playerLevel < 75)
+        {
+            nAdjust[0] = 2; nAdjust[1] = 3; nAdjust[2] = 1; nAdjust[3] = 0;
+        }
+        else if (playerLevel < 80)
+        {
+            nAdjust[0] = 3; nAdjust[1] = 2; nAdjust[2] = 1; nAdjust[3] = 0;
+        }
+
         List<int> randomList = new List<int>();
 
         for (int i = 0; i < 100; i++)
         {
             if (i <= 70)
-                randomList.Add(difficulty1[nDifficultyIndex[0]]);
+                randomList.Add(difficulty[nAdjust[0]][nDifficultyIndex[0]]);
             else if (i > 70 && i <= 85)
-                randomList.Add(difficulty2[nDifficultyIndex[1]]);
+                randomList.Add(difficulty[nAdjust[1]][nDifficultyIndex[1]]);
             else if (i > 85 && i <= 95)
-                randomList.Add(difficulty3[nDifficultyIndex[2]]);
+                randomList.Add(difficulty[nAdjust[2]][nDifficultyIndex[2]]);
             else if (i > 95 && i <= 98)
-                randomList.Add(difficulty4[nDifficultyIndex[3]]);
+                randomList.Add(difficulty[nAdjust[3]][nDifficultyIndex[3]]);
             else if (i == 99)                            //보너스맵
                 randomList.Add(999);
         }
 
         int nRandom = Random.RandomRange(0, randomList.Count);
         if (nRandom == 99)
-            nEnemyIndex = 999;
+            nEnemyIndex = 999;                          //보너스 캐릭
         else
             nEnemyIndex = randomList[nRandom];
                         
@@ -367,7 +406,12 @@ public class HuntScene : MonoBehaviour {
 
         map = CGame.Instance.GameObject_from_prefab("Map/" + mapData.index);
         sky.material = CGame.Instance.GetMaterial("Sky/" + mapData.skyIndex);
-    }    
+    }
+    void AutoButton()
+    {
+        player.playerCharacter.AutoMode();
+        autoBtnAnim.SetBool("ZRotation", player.playerCharacter.bAutoMode);
+    }
 
     void SkillButton()
     {

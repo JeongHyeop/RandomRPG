@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public abstract class Character// : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public abstract class Character// : MonoBehaviour
 
     //
     protected float moveTime = 0;
-    protected const float maxSpeed = 4.0f;
+    protected const float maxSpeed = 6.0f;
     protected float cycle = 1.0f;
     protected float moveSpeed = 1.0f;
 
@@ -45,6 +46,12 @@ public abstract class Character// : MonoBehaviour
     public abstract void ActSet(eCharacterAct _eAct);
     public abstract void ActProcess();
 
+    //
+    protected NavMeshAgent agent;
+    protected const float traceDist = 25.0f;
+    protected const float skillDist = 5.0f;
+    protected float skillTime = 0;
+
     public void Init()
     {
         this.equippingBeauty = new EquipBeauty();
@@ -52,6 +59,7 @@ public abstract class Character// : MonoBehaviour
         this.characterObject = new GameObject();
         skillManager = new SkillManager();
         eAct = eCharacterAct.idle;
+        skillTime = skillCoolTime;
     }
     public void SetTargetObject(GameObject _target)
     {

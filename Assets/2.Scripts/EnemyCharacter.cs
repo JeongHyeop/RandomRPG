@@ -7,14 +7,12 @@ public class EnemyCharacter : Character
 {
     //추적        
     public PlayerCharacter playerCharacter;
-    NavMeshAgent agent;
-    const float traceDist = 25.0f;
-    const float skillDist = 5.0f;
+    //NavMeshAgent agent;
+    //const float traceDist = 25.0f;
+    //const float skillDist = 5.0f;
 
     public int level;
     public int exp;
-
-    float skillTime;
     public void EnemyCharacterLoad(int _index)
     {
         isDie = false;

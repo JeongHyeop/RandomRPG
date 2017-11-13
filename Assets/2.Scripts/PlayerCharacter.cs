@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.AI;
 
 public class PlayerCharacter : Character
 {
@@ -9,13 +10,21 @@ public class PlayerCharacter : Character
     public Vector3 moveAxis = Vector3.zero;
     float rotationSpeed = 100.0f;
 
+    public bool bAutoMode { private set; get; }
+    public bool bSkillActive{ private set; get; }
+
     public void PlayerUpdate()
     {
         if (isDie == false)
         {
-            ActProcess();
+            if (bAutoMode == true)
+                AutoProcess();
+            else
+                ActProcess();
+
             ObjectCollision();
         }
+        skillTime += Time.deltaTime;
     }
 
     //캐릭터 정보가 없을때 최초 1회 실행
@@ -183,10 +192,17 @@ public class PlayerCharacter : Character
                 equippingItem.equippingAcc = CGame.Instance.dataTable.GetItem(equippingItem.accessoriIndex);
             }
             else
-                equippingItem.equippingAcc = new DataTable_Item();           
+                equippingItem.equippingAcc = new DataTable_Item();
+
+            //Nav Mesh Agent 얻기
+            characterObject.AddComponent<NavMeshAgent>();
+            agent = characterObject.GetComponent<NavMeshAgent>();
+            agent.enabled = false;            
+            agent.enabled = true;
 
             ActSet(eCharacterAct.idle);
         }
+        skillTime = skillCoolTime;
     }
 
     public void FirstPersonView(Camera _camera)
@@ -277,7 +293,8 @@ public class PlayerCharacter : Character
     void Idle()
     {
         moveTime = 0;
-        moveSpeed = 1;
+        moveSpeed = 2.5f;
+        agent.speed = 0;
         cycle = 1.0f;
         characterAnimator.SetBool("Run", false);
         characterAnimator.SetBool("Walk", false);
@@ -290,7 +307,16 @@ public class PlayerCharacter : Character
         characterObject.transform.eulerAngles = pos;
 
         //3인칭
-        characterObject.transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);     
+        if (bAutoMode == false)
+        {
+            characterObject.transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
+        }
+        else if (bAutoMode == true)
+        {
+            agent.speed = moveSpeed;
+            agent.destination = targetObject.transform.position;
+            agent.transform.LookAt(targetObject.transform);
+        }
 
         moveTime += Time.deltaTime;
 
@@ -299,11 +325,11 @@ public class PlayerCharacter : Character
             moveSpeed = moveSpeed >= maxSpeed ? maxSpeed : moveSpeed += 0.5f;
             cycle += 1.0f;
         }
-        if (moveSpeed < 2.0f)
+        if (moveSpeed < 3.0f)
         {
             characterAnimator.SetBool("Walk", true);
         }
-        else if (moveSpeed >= 2.0f && moveSpeed <= 3.5f)
+        else if (moveSpeed >= 3.0f && moveSpeed <= 4.0f)
         {
             characterAnimator.SetBool("Walk", false);
             characterAnimator.SetBool("Run", true);
@@ -376,7 +402,7 @@ public class PlayerCharacter : Character
             CGame.Instance.PlaySound((int)eSound.eSound_MaleHit, GameObject.Find("Main Camera"), false);
 
         skillManager.SkillStart(type, eSkillState.eSkillState_Hit, (eWeaponType)(100), characterObject);
-        characterAnimator.Play("Take Damage");
+        //characterAnimator.Play("Take Damage");
         ActSet(eCharacterAct.idle);        
     }
     public void Jump()
@@ -454,7 +480,9 @@ public class PlayerCharacter : Character
 
         skillManager.SkillStart(type, eSkillState.eSkillState_Start, equippingItem.equippingWeapon.weaponType, characterObject);
 
-        characterAnimator.Play("Melee Right Attack 02");        
+        characterAnimator.Play("Melee Right Attack 02");
+        skillTime = 0;
+        bSkillActive = false;
         ActSet(eCharacterAct.idle);   
     }
     void Die()
@@ -475,5 +503,32 @@ public class PlayerCharacter : Character
         else if(Physics.Raycast(characterObject.transform.position, -characterObject.transform.forward, out rayHit, 1.0f) && rayHit.collider.tag == "Obstacle")
             characterObject.transform.Translate((Vector3.forward * 1.5f) * moveSpeed * Time.deltaTime);        
     }
+    public void AutoMode()
+    {
+        if (isDie == true)
+            return;
+
+        if (bAutoMode == false)
+        {
+            bAutoMode = true; 
+        }
+        else if(bAutoMode == true)
+        {
+            bAutoMode = false;
+            ActSet(eCharacterAct.idle);
+        }
+    }
+    void AutoProcess()
+    {
+        float dist = Vector3.Distance(characterObject.transform.position, targetObject.transform.position);
+
+        //공격거리 범위 안        
+        if (dist <= skillDist && skillTime >= skillCoolTime)
+            bSkillActive = true;
+        else if (dist <= attackDist)
+            ActSet(eCharacterAct.attack);
+        else if (dist <= 100)
+            ActSet(eCharacterAct.run);
+    }   
 }   
         
