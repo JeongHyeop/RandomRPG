@@ -81,6 +81,7 @@ public class Skill : MonoBehaviour {
             player.playerCharacter.hp = player.playerCharacter.hp - damage <= 0 ? 0 : player.playerCharacter.hp - damage;
             HuntSceneUI.Instance.SetDamageText(player.playerCharacter.characterObject, damage);
         }
+        HuntSceneUI.Instance.Shake();
         active = true;
         yield return new WaitForSeconds(1.0f);
         active = false;        

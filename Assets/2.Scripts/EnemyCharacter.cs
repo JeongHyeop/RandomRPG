@@ -288,6 +288,7 @@ public class EnemyCharacter : Character
         skillManager.SkillStart(type, eSkillState.eSkillState_Start, equippingItem.equippingWeapon.weaponType, characterObject);
         skillTime = 0;
         ActSet(eCharacterAct.idle);
+       
     }
     void Hit()
     {
