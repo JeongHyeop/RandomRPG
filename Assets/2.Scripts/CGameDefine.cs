@@ -38,8 +38,7 @@ public enum eItemGrade
     eItemGrade_Normal    = 1,           //일반
     eItemGrade_Rare      = 2,           //진귀
     eItemGrade_SuperRare = 3,           //초진귀
-    eItemGrade_UltraRare = 4,           //초초진귀
-    eItemGrade_Legend    = 5,           //전설
+    eItemGrade_Legend    = 4,           //전설
 }
 public enum eItemType
 {
