@@ -86,6 +86,7 @@ public class HuntSceneUI : MonoBehaviour
     public void Shake()
     {
         StartCoroutine(CameraShake());
+        Handheld.Vibrate();
     }
    IEnumerator CameraShake()
     {

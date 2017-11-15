@@ -264,7 +264,7 @@ public class HuntScene : MonoBehaviour {
                     goldText.text = nTemp.ToString();
                     if (Input.GetMouseButtonUp(0))
                     {
-                        nTemp = nGold - 10;
+                        nTemp = nGold;
                         delayTime = 0;
                     }
                 }
@@ -345,6 +345,7 @@ public class HuntScene : MonoBehaviour {
         for (int i = 0; i < size - 1; i++)
         {
             DataTable_Hunt newData = CGame.Instance.dataTable.dataTableHunt[i];
+            
             if (newData.levelOfDifficulty == 1)
                 difficulty[0].Add(newData.index);
             else if (newData.levelOfDifficulty == 2)
@@ -361,22 +362,30 @@ public class HuntScene : MonoBehaviour {
         //여기서 레벨 디자인(난이도 조정)
         int[] nAdjust = new int[4];
         int playerLevel = CGame.Instance.player.playerData.level;
-        
+
         if (playerLevel < 20)
         {
             nAdjust[0] = 0; nAdjust[1] = 1; nAdjust[2] = 2; nAdjust[3] = 3;
+            nDifficultyIndex[0] = Random.RandomRange(0, difficulty[0].Count); nDifficultyIndex[1] = Random.RandomRange(0, difficulty[1].Count);
+            nDifficultyIndex[2] = Random.RandomRange(0, difficulty[2].Count); nDifficultyIndex[3] = Random.RandomRange(0, difficulty[3].Count);
         }
-        else if (playerLevel < 40)
+        else if (playerLevel < 45)
         {
             nAdjust[0] = 1; nAdjust[1] = 0; nAdjust[2] = 2; nAdjust[3] = 3;
+            nDifficultyIndex[0] = Random.RandomRange(0, difficulty[1].Count); nDifficultyIndex[1] = Random.RandomRange(0, difficulty[0].Count);
+            nDifficultyIndex[2] = Random.RandomRange(0, difficulty[2].Count); nDifficultyIndex[3] = Random.RandomRange(0, difficulty[3].Count);
         }
         else if (playerLevel < 75)
         {
             nAdjust[0] = 2; nAdjust[1] = 3; nAdjust[2] = 1; nAdjust[3] = 0;
+            nDifficultyIndex[0] = Random.RandomRange(0, difficulty[2].Count); nDifficultyIndex[1] = Random.RandomRange(0, difficulty[3].Count);
+            nDifficultyIndex[2] = Random.RandomRange(0, difficulty[1].Count); nDifficultyIndex[3] = Random.RandomRange(0, difficulty[0].Count);
         }
-        else if (playerLevel < 80)
+        else if (playerLevel < 95)
         {
             nAdjust[0] = 3; nAdjust[1] = 2; nAdjust[2] = 1; nAdjust[3] = 0;
+            nDifficultyIndex[0] = Random.RandomRange(0, difficulty[3].Count); nDifficultyIndex[1] = Random.RandomRange(0, difficulty[2].Count);
+            nDifficultyIndex[2] = Random.RandomRange(0, difficulty[1].Count); nDifficultyIndex[3] = Random.RandomRange(0, difficulty[0].Count);
         }
 
         List<int> randomList = new List<int>();
@@ -396,6 +405,7 @@ public class HuntScene : MonoBehaviour {
         }
 
         int nRandom = Random.RandomRange(0, randomList.Count);
+
         if (nRandom == 99)
             nEnemyIndex = 999;                          //보너스 캐릭
         else

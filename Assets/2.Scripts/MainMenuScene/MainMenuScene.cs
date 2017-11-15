@@ -121,17 +121,23 @@ public class MainMenuScene : MonoBehaviour {
         while (player.updateExp >= 0)
         {
             if (player.playerData.exp < player.maxExp)
-            {
-                if (player.updateExp >= 60)
+            {                
+                if (player.updateExp >= 100)
                 {
-                    player.playerData.exp += 20;
-                    player.updateExp -= 20;
+                    player.playerData.exp += 100;
+                    player.updateExp -= 100;
+                }
+                else if (player.updateExp < 100)
+                {
+                    player.playerData.exp += 10;
+                    player.updateExp -= 10;
                 }
                 else
                 {
                     player.playerData.exp += 1;
                     player.updateExp -= 1;
                 }
+
                 exp.value = (float)player.playerData.exp / (float)player.maxExp;
                 expText.text = player.playerData.exp + " / " + player.maxExp;
                 yield return null;
