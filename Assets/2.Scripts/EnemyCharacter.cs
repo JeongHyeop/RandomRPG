@@ -320,18 +320,23 @@ public class EnemyCharacter : Character
         if (bDropItemCheck == true)
         {
             GameObject goItem = null;
+            int itemIndex = 0;
             switch ((eItemType)nItemType)
             {
                 case eItemType.eitemType_Helmet:
-                    goItem = CGame.Instance.GameObject_from_prefab("Item/" + equippingItem.helmetIndex);
+                    itemIndex = equippingItem.helmetIndex;
+                    goItem = CGame.Instance.GameObject_from_prefab("Item/" + itemIndex);                    
                     break;
                 case eItemType.eitemType_Weapon:
-                    goItem = CGame.Instance.GameObject_from_prefab("Item/" + equippingItem.weaponIndex);
+                    itemIndex = equippingItem.weaponIndex;
+                    goItem = CGame.Instance.GameObject_from_prefab("Item/" + itemIndex);
                     break;
                 case eItemType.eitemType_Accessori:
-                    goItem = CGame.Instance.GameObject_from_prefab("Item/" + equippingItem.accessoriIndex);
+                    itemIndex = equippingItem.accessoriIndex;
+                    goItem = CGame.Instance.GameObject_from_prefab("Item/" + itemIndex);
                     break;
             }
+            CGame.Instance.CallItemInfo(itemIndex, eScene.eScene_HuntScene);
             goItem.transform.position = characterObject.transform.position;
         }
     }

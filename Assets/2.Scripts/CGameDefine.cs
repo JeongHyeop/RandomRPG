@@ -128,3 +128,12 @@ public enum eCharacterAct // animation + state
     corpse,
     Max
 };
+public enum eScene
+{
+    eScene_Logo = 0,
+    eScene_Start =1,
+    eScene_Custom =2,
+    eScene_MainMenu = 3,
+    eScene_HuntScene = 4,
+    eScene_ItemScene = 5,
+}
