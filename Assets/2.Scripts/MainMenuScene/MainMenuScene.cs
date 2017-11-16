@@ -60,6 +60,11 @@ public class MainMenuScene : MonoBehaviour {
     Button skillAttackUpButton;
     Button skillCoolTimeUpButton;
 
+    //아이템 버튼
+    Button weaponButton;
+    Button helmetButton;
+    Button accButton;
+
 	void Start () {
         Init();        
 	}
@@ -103,12 +108,42 @@ public class MainMenuScene : MonoBehaviour {
         skillCoolTimeUpButton = CGame.Instance.GameObject_get_child(infoPanel, "SkillCoolTimeUpButton").GetComponent<Button>();
         skillCoolTimeUpButton.onClick.AddListener(delegate { AbilityUp(eCharacterInformation.eCharacterInfo_SkillCollTime); });
 
+        weaponButton = GameObject.Find("WeaponButton").GetComponent<Button>();
+        weaponButton.onClick.AddListener(WeaponButton);
+
+        helmetButton = GameObject.Find("HelemetButton").GetComponent<Button>();
+        helmetButton.onClick.AddListener(HelmetButton);
+
+        accButton = GameObject.Find("AccButton").GetComponent<Button>();
+        accButton.onClick.AddListener(AccButton);
+
         //레벨        
         if (player.updateExp != 0)
             StartCoroutine(LevelUp());
         Debug.Log(player.updateExp);
         AbilityUp((eCharacterInformation)(-1));
     }
+    private void WeaponButton()
+    {
+        if (player.playerCharacter.equippingItem.weaponIndex != -1)
+        {
+            CGame.Instance.CallItemInfo(player.playerCharacter.equippingItem.weaponIndex, eScene.eScene_MainMenu);
+        }
+    }
+    private void HelmetButton()
+    {
+        if (player.playerCharacter.equippingItem.helmetIndex != -1)
+        {
+            CGame.Instance.CallItemInfo(player.playerCharacter.equippingItem.helmetIndex, eScene.eScene_MainMenu);
+        }
+        }
+    private void AccButton()
+    {
+        if (player.playerCharacter.equippingItem.accessoriIndex != -1)
+        {
+            CGame.Instance.CallItemInfo(player.playerCharacter.equippingItem.accessoriIndex, eScene.eScene_MainMenu);
+        }
+        }
     IEnumerator LevelUp()
     {
         if (player.updateExp <= 0)
