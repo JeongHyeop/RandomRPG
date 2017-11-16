@@ -11,8 +11,12 @@ public class EnemyCharacter : Character
     //const float traceDist = 25.0f;
     //const float skillDist = 5.0f;
 
+    //아이템
+    public bool bDropItemCheck { private set; get; }
+
     public int level;
     public int exp;
+
     public void EnemyCharacterLoad(int _index)
     {
         isDie = false;
@@ -38,81 +42,41 @@ public class EnemyCharacter : Character
         index = data.index;
         name = data.name;
 
-        //나중에 hp, attack 등 장비 맞춰서 끼워지면 +로 추가하기
+        //장비
+        equippingItem.weaponIndex = data.equippingItem.weaponIndex;
+        equippingItem.helmetIndex = data.equippingItem.helmetIndex;
+        equippingItem.accessoriIndex = data.equippingItem.accessoriIndex;              
+
+        //뷰티
+        equippingBeauty.genderType = data.equippingBeauty.genderType;
+        equippingBeauty.BodyIndex = data.equippingBeauty.BodyIndex;
+        equippingBeauty.HairIndex = data.equippingBeauty.HairIndex;
+
+        //무기
+        if (equippingItem.weaponIndex != -1)
+            equippingItem.equippingWeapon = CGame.Instance.dataTable.GetItem(equippingItem.weaponIndex);
+        else
+            equippingItem.equippingWeapon = new DataTable_Item();
+
+        //헬멧
+        if (equippingItem.helmetIndex != -1)
+            equippingItem.equippingHelmet = CGame.Instance.dataTable.GetItem(equippingItem.helmetIndex);
+        else
+            equippingItem.equippingHelmet = new DataTable_Item();
+
+        //악세서리
+        if (equippingItem.accessoriIndex != -1)
+            equippingItem.equippingAcc = CGame.Instance.dataTable.GetItem(equippingItem.accessoriIndex);
+        else
+            equippingItem.equippingAcc = new DataTable_Item();
+
         hp = data.hp + (level * 5);
         maxHP = hp;
         mp = data.mp;
         attack = data.attack + (level * 2);
         defence = data.defence + (level * 2);
         skillAttack = data.skillAttack + (level * 2);
-        skillCoolTime = data.skillCoolTime;
-        equippingItem.helmetIndex = data.equippingItem.helmetIndex;
-        equippingItem.accessoriIndex = data.equippingItem.accessoriIndex;
-        equippingItem.weaponIndex = data.equippingItem.weaponIndex;
-        equippingBeauty.genderType = data.equippingBeauty.genderType;
-        equippingBeauty.BodyIndex = data.equippingBeauty.BodyIndex;
-        equippingBeauty.HairIndex = data.equippingBeauty.HairIndex;       
-
-        //임시 무기
-        int nRandomWeapon = Random.Range(0,10);
-        equippingItem.equippingWeapon = new DataTable_Item();
-        equippingItem.equippingHelmet = new DataTable_Item();
-        equippingItem.equippingAcc = new DataTable_Item();
-        equippingItem.equippingWeapon.weaponType = (eWeaponType)nRandomWeapon;
-
-        //실제 착용하고 있는 장비 시트 만들고 밑에 추가하기
-        ////무기
-        //if (equippingItem.weaponIndex != -1)
-        //{
-        //    GameObject newWeapon = null;
-
-        //    //머리붙일 위치를 자식 객체를 돌면서 찾음
-        //    GameObject oldWeapon = CGame.Instance.GameObject_get_child(_parent, "Dummy Prop Right");
-
-        //    newWeapon = CGame.Instance.GameObject_from_prefab("Item/" + equippingItem.weaponIndex);
-        //    newWeapon.transform.parent = oldWeapon.transform;
-        //    newWeapon.transform.localPosition = Vector3.zero;
-        //    newWeapon.transform.localRotation = new Quaternion(-0.5f, 0, 0, 0.5f);
-
-        //    equippingItem.equippingWeapon = CGame.Instance.dataTable.GetItem(equippingItem.weaponIndex);
-        //}
-
-        ////헬멧
-        //if (equippingItem.helmetIndex != -1)
-        //{
-        //    GameObject newHelmet = null;
-
-        //    //머리붙일 위치를 자식 객체를 돌면서 찾음
-        //    GameObject oldHead = CGame.Instance.GameObject_get_child(_parent, "Dummy Prop Head");
-
-        //    newHelmet = CGame.Instance.GameObject_from_prefab("Item/" + equippingItem.helmetIndex);
-        //    newHelmet.transform.parent = oldHead.transform;
-        //    newHelmet.transform.localPosition = Vector3.zero;
-        //    newHelmet.transform.localRotation = new Quaternion(-0.5f, 0, 0, 0.5f);
-
-        //    equippingItem.equippingHelmet = CGame.Instance.dataTable.GetItem(equippingItem.helmetIndex);
-        //}
-        //else
-        //    equippingItem.equippingHelmet = new DataTable_Item();
-
-        ////악세서리
-        //if (equippingItem.accessoriIndex != -1)
-        //{
-        //    GameObject newAcc = null;
-
-        //    //머리붙일 위치를 자식 객체를 돌면서 찾음
-        //    GameObject oldBack = CGame.Instance.GameObject_get_child(_parent, "Dummy Prop Back");
-
-        //    newAcc = CGame.Instance.GameObject_from_prefab("Item/" + equippingItem.accessoriIndex);
-        //    newAcc.transform.parent = oldBack.transform;
-        //    newAcc.transform.localPosition = Vector3.zero;
-        //    newAcc.transform.localRotation = new Quaternion(-0.5f, 0, 0, 0.5f);
-
-        //    equippingItem.equippingAcc = CGame.Instance.dataTable.GetItem(equippingItem.accessoriIndex);
-        //}
-        //else
-        //    equippingItem.equippingAcc = new DataTable_Item();                
-
+        skillCoolTime = data.skillCoolTime;        
     }
     public void EnemyUpdate()
     {
@@ -308,17 +272,76 @@ public class EnemyCharacter : Character
     }
     void Die()
     {
-        if (eGenderType.eGenderType_Female == (eGenderType)equippingBeauty.genderType)
-            CGame.Instance.PlaySound((int)eSound.eSound_FemaleDie, GameObject.Find("Main Camera"), false);
-        else
-            CGame.Instance.PlaySound((int)eSound.eSound_MaleDie, GameObject.Find("Main Camera"), false);
-        
-        characterAnimator.Play("Die");
-        isDie = true;
+        if (isDie == false)
+        {
+            if (eGenderType.eGenderType_Female == (eGenderType)equippingBeauty.genderType)
+                CGame.Instance.PlaySound((int)eSound.eSound_FemaleDie, GameObject.Find("Main Camera"), false);
+            else
+                CGame.Instance.PlaySound((int)eSound.eSound_MaleDie, GameObject.Find("Main Camera"), false);
+
+            if(index != 999)
+                DropItem();
+
+            characterAnimator.Play("Die");
+            isDie = true;
+        }
     }
     public void DropItem()
     {
+        int nItemType = 0;
 
+        if (equippingItem.accessoriIndex != -1)
+            nItemType = Random.Range(1, 2);
+        else
+            nItemType = Random.Range(1, 3);
+        
+        eItemGrade grade = equippingItem.equippingHelmet.grade;
+        bDropItemCheck = false;
+
+        switch (grade)
+        {
+            case eItemGrade.eItemGrade_Base:
+                bDropItemCheck = Probability(75);
+                break;
+            case eItemGrade.eItemGrade_Normal:
+                bDropItemCheck = Probability(50);
+                break;
+            case eItemGrade.eItemGrade_Rare:
+                bDropItemCheck = Probability(35);
+                break;
+            case eItemGrade.eItemGrade_SuperRare:
+                bDropItemCheck = Probability(15);
+                break;
+            case eItemGrade.eItemGrade_Legend:
+                bDropItemCheck = Probability(3);
+                break;
+        }
+
+        if (bDropItemCheck == true)
+        {
+            GameObject goItem = null;
+            switch ((eItemType)nItemType)
+            {
+                case eItemType.eitemType_Helmet:
+                    goItem = CGame.Instance.GameObject_from_prefab("Item/" + equippingItem.helmetIndex);
+                    break;
+                case eItemType.eitemType_Weapon:
+                    goItem = CGame.Instance.GameObject_from_prefab("Item/" + equippingItem.weaponIndex);
+                    break;
+                case eItemType.eitemType_Accessori:
+                    goItem = CGame.Instance.GameObject_from_prefab("Item/" + equippingItem.accessoriIndex);
+                    break;
+            }
+            goItem.transform.position = characterObject.transform.position;
+        }
+    }
+    bool Probability(int _nPercent)
+    {
+        int nRandom = Random.Range(1, 100);
+        if(nRandom <= _nPercent)
+            return true;
+        else
+            return false;
     }
 
     void ObjectCollision()

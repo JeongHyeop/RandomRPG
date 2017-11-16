@@ -35,11 +35,11 @@ public class PlayerCharacter : Character
         player.playerCharacter.type = eCharacterType.eCharacterType_Hero;
         player.playerCharacter.index = 0;
         player.playerCharacter.name = _name;
-        player.playerCharacter.hp = 1000;
+        player.playerCharacter.hp = 1200;
         player.playerCharacter.mp = 1;        
-        player.playerCharacter.attack = 100;
+        player.playerCharacter.attack = 120;
         player.playerCharacter.defence = 80;
-        player.playerCharacter.skillAttack = 100;
+        player.playerCharacter.skillAttack = 150;
         player.playerCharacter.skillCoolTime = 15;
         player.playerCharacter.equippingItem.helmetIndex = _equipItem.helmetIndex;
         player.playerCharacter.equippingItem.accessoriIndex = _equipItem.accessoriIndex;

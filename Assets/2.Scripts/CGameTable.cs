@@ -167,7 +167,7 @@ public class CGameTable : MonoBehaviour {
 
             info[i - 1].itemIndex = int.Parse(Cells[0]);
             info[i - 1].itemType = (eItemType)int.Parse(Cells[1]);                     
-            info[i - 1].itemName = Cells[2];
+            info[i - 1].itemName = Cells[2];            
             info[i - 1].weaponType = (eWeaponType)int.Parse(Cells[3]);
             info[i - 1].grade = (eItemGrade)int.Parse(Cells[4]);
             info[i - 1].hp = int.Parse(Cells[5]);

@@ -235,6 +235,7 @@ public class HuntScene : MonoBehaviour {
                 strBattleResult = "Lose";
                 break;
         }
+
         resultText.text = strBattleResult;
         bResult = true;
         resultPanel.SetActive(bResult);
@@ -274,6 +275,8 @@ public class HuntScene : MonoBehaviour {
                     {
                         player.playerData.gold += nGold;
                         player.updateExp += enemy.exp;
+                        //아이템 먹기
+
 
                         CGame.Instance.LocalDB_save();
                         CGame.Instance.SceneChange(3);
@@ -282,14 +285,14 @@ public class HuntScene : MonoBehaviour {
                 break;
             case eBattleResult.eBattleResult_EnemyWin:
                 if (delayTime > 1.5f)
-                {                    
+                {
                     goldText.text = "0";
                     //아이템 뺏기기
 
                     CGame.Instance.LocalDB_save();
                     CGame.Instance.SceneChange(3);
                 }
-                break;         
+                break;
         }
     }
     void OptionButton()
@@ -381,7 +384,7 @@ public class HuntScene : MonoBehaviour {
             nDifficultyIndex[0] = Random.RandomRange(0, difficulty[2].Count); nDifficultyIndex[1] = Random.RandomRange(0, difficulty[3].Count);
             nDifficultyIndex[2] = Random.RandomRange(0, difficulty[1].Count); nDifficultyIndex[3] = Random.RandomRange(0, difficulty[0].Count);
         }
-        else if (playerLevel < 95)
+        else if (playerLevel < 95 || playerLevel >= 95)
         {
             nAdjust[0] = 3; nAdjust[1] = 2; nAdjust[2] = 1; nAdjust[3] = 0;
             nDifficultyIndex[0] = Random.RandomRange(0, difficulty[3].Count); nDifficultyIndex[1] = Random.RandomRange(0, difficulty[2].Count);
@@ -404,7 +407,7 @@ public class HuntScene : MonoBehaviour {
                 randomList.Add(999);
         }
 
-        int nRandom = Random.RandomRange(0, randomList.Count);
+        int nRandom = Random.RandomRange(0, randomList.Count);        
 
         if (nRandom == 99)
             nEnemyIndex = 999;                          //보너스 캐릭
