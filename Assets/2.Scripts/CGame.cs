@@ -202,7 +202,7 @@ public class CGame : MonoBehaviour
             //loading.transform.parent = Camera.main.transform;
             //loading.transform.localPosition = new Vector3( 0, 0, 0.5f ); //카메라 바로 앞.
         }
-
+        itemPanel.ExitItemMenu();
         SceneManager.LoadScene(_number);
 
         nSceneNumber_cur = _number;

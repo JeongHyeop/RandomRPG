@@ -112,7 +112,7 @@ public class ItemPanel : MonoBehaviour {
     {
         float nNewval = 0;
         string strArrow = null;
-        Color cTextcolor;
+        Color cTextcolor = Color.black;
 
         if (_value > _value1)
         {
@@ -126,14 +126,14 @@ public class ItemPanel : MonoBehaviour {
             strArrow = "(↓)";
             cTextcolor = Color.red;
         }
-        else
+        else if(_value == _value1)
             cTextcolor = Color.black;
 
         _text.text = _value.ToString() + " (" + nNewval + ")" + strArrow;
         _text.color = cTextcolor;
     }
 
-    private void ExitItemMenu()
+    public void ExitItemMenu()
     {
         itemPanelGO.transform.parent = CGame.Instance.gameObject.transform;
         bItemActive = false; itemPanelGO.SetActive(bItemActive);
