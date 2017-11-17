@@ -116,12 +116,60 @@ public class MainMenuScene : MonoBehaviour {
 
         accButton = GameObject.Find("AccButton").GetComponent<Button>();
         accButton.onClick.AddListener(AccButton);
+        UIItemLoad();
 
         //레벨        
         if (player.updateExp != 0)
             StartCoroutine(LevelUp());
         Debug.Log(player.updateExp);
         AbilityUp((eCharacterInformation)(-1));
+    }
+    void UIItemLoad()
+    {
+        //무기
+        Image gradeImg = weaponButton.GetComponent<Image>();
+        Image itemImg = CGame.Instance.GameObject_get_child(gradeImg.gameObject, "ItemImage").GetComponent<Image>();
+
+        if (player.playerCharacter.equippingItem.equippingWeapon.itemIndex != -1)
+        {
+            gradeImg.sprite = CGame.Instance.GetImage("Item/GradeIconImg" + (int)player.playerCharacter.equippingItem.equippingWeapon.grade);
+            itemImg.sprite = CGame.Instance.GetImage("Item/" + (int)player.playerCharacter.equippingItem.weaponIndex);
+        }
+        else
+        {
+            gradeImg.sprite = CGame.Instance.GetImage("Item/GradeIconImg0");
+            itemImg.sprite = null;
+        }
+
+        //헬멧
+        gradeImg = helmetButton.GetComponent<Image>();
+        itemImg = CGame.Instance.GameObject_get_child(gradeImg.gameObject, "ItemImage").GetComponent<Image>();
+
+        if (player.playerCharacter.equippingItem.equippingHelmet.itemIndex != -1)
+        {
+            gradeImg.sprite = CGame.Instance.GetImage("Item/GradeIconImg" + (int)player.playerCharacter.equippingItem.equippingHelmet.grade);
+            itemImg.sprite = CGame.Instance.GetImage("Item/" + (int)player.playerCharacter.equippingItem.helmetIndex);
+        }
+        else
+        {
+            gradeImg.sprite = CGame.Instance.GetImage("Item/GradeIconImg0");
+            itemImg.sprite = null;
+        }
+
+        //악세서리
+        gradeImg = accButton.GetComponent<Image>();
+        itemImg = CGame.Instance.GameObject_get_child(gradeImg.gameObject, "ItemImage").GetComponent<Image>();
+
+        if (player.playerCharacter.equippingItem.equippingAcc.itemIndex != -1)
+        {
+            gradeImg.sprite = CGame.Instance.GetImage("Item/GradeIconImg" + (int)player.playerCharacter.equippingItem.equippingAcc.grade);
+            itemImg.sprite = CGame.Instance.GetImage("Item/" + (int)player.playerCharacter.equippingItem.accessoriIndex);
+        }
+        else
+        {
+            gradeImg.sprite = CGame.Instance.GetImage("Item/GradeIconImg0");
+            itemImg.sprite = null;
+        }
     }
     private void WeaponButton()
     {
