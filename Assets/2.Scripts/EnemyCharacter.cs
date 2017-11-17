@@ -288,13 +288,6 @@ public class EnemyCharacter : Character
     }
     public void DropItem()
     {
-        int nItemType = 0;
-
-        if (equippingItem.accessoriIndex != -1)
-            nItemType = Random.Range(1, 2);
-        else
-            nItemType = Random.Range(1, 3);
-        
         eItemGrade grade = equippingItem.equippingHelmet.grade;
         bDropItemCheck = false;
 
@@ -319,9 +312,17 @@ public class EnemyCharacter : Character
 
         if (bDropItemCheck == true)
         {
+            int nItemType = 0;
+
+            if (equippingItem.accessoriIndex == -1)
+                nItemType = Random.Range(1, 3);
+            else
+                nItemType = Random.Range(1, 4);
+            eItemType itemType = (eItemType)nItemType;
+
             GameObject goItem = null;
             int itemIndex = 0;
-            switch ((eItemType)nItemType)
+            switch (itemType)
             {
                 case eItemType.eitemType_Helmet:
                     itemIndex = equippingItem.helmetIndex;

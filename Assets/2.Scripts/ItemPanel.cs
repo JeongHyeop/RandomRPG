@@ -29,7 +29,15 @@ public class ItemPanel : MonoBehaviour {
     {
         if (itemPanelGO == null)
             itemPanelGO = CGame.Instance.GameObject_from_prefab("Inventory");
-
+        else
+        {
+            itemHP.color = Color.black;
+            itemAttack.color = Color.black;
+            itemDefence.color = Color.black;
+            itemMana.color = Color.black;
+            itemSkill.color = Color.black;
+            itemCooltime.color = Color.black;
+        }
         DataTable_Item newDTItem = CGame.Instance.dataTable.GetItem(_nItemIndex);
 
         bItemActive = true; itemPanelGO.SetActive(bItemActive);

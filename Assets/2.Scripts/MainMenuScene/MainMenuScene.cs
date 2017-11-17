@@ -121,7 +121,7 @@ public class MainMenuScene : MonoBehaviour {
         //레벨        
         if (player.updateExp != 0)
             StartCoroutine(LevelUp());
-        Debug.Log(player.updateExp);
+
         AbilityUp((eCharacterInformation)(-1));
     }
     void UIItemLoad()
