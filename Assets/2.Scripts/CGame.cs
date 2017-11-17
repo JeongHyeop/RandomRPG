@@ -29,9 +29,11 @@ public class CGame : MonoBehaviour
 
     //팝업 & 알림창
     public GameObject notice;
-    public GameObject popup;
-    public GameObject itempanel;
+    public GameObject popup;    
     GameObject exitPopup;
+
+    //아이템
+    public ItemPanel itemPanel;
 
     //사운드
     public float effectSound = 0.5f;
@@ -392,123 +394,6 @@ public class CGame : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         if (CGame.Instance.notice != null)
             Destroy(CGame.Instance.notice);
-    }
-    public void CallItemInfo(int _nItemIndex, eScene _eScenenum )
-    {
-        if (itempanel == null)
-            itempanel = GameObject_from_prefab("Inventory");
-
-        DataTable_Item newDTItem = dataTable.GetItem(_nItemIndex);
-        itempanel.SetActive(true);
-        itempanel.transform.parent = GameObject.Find("Canvas").transform;
-        itempanel.transform.position = itempanel.transform.parent.position;
-        
-        string gradeitem = null;
-        //수치변경
-        Image itemimage = GameObject_get_child(itempanel, "ItemImage").GetComponent<Image>();
-        Image itemgrade = GameObject_get_child(itempanel, "Itemgrade").GetComponent<Image>();
-        Text itemName = GameObject_get_child(itempanel, "Itemname").GetComponent<Text>();
-        Text itemGrade = GameObject_get_child(itempanel, "Itemtype").GetComponent<Text>();
-        Text itemHP = GameObject_get_child(itempanel, "Hp").GetComponent<Text>();
-        Text itemAttack = GameObject_get_child(itempanel, "Attack").GetComponent<Text>();
-        Text itemDefence = GameObject_get_child(itempanel, "Defence").GetComponent<Text>();
-        Text itemMana = GameObject_get_child(itempanel, "Mana").GetComponent<Text>();
-        Text itemSkill = GameObject_get_child(itempanel, "SkillDamage").GetComponent<Text>();
-        Text itemCooltime = GameObject_get_child(itempanel, "Cooltime").GetComponent<Text>();
-        Button exitbutton = GameObject_get_child(itempanel, "ItemExitButton").GetComponent<Button>();
-        Button changebutton = GameObject_get_child(itempanel, "ChangeButton").GetComponent<Button>();
-        changebutton.gameObject.SetActive(false);
-        exitbutton.onClick.AddListener(ExitItemMenu);
-
-        switch (newDTItem.grade)
-        {
-            case eItemGrade.eItemGrade_Base:
-                gradeitem = "Base";
-                break;
-            case eItemGrade.eItemGrade_Normal:
-                gradeitem = "normal";
-                break;
-            case eItemGrade.eItemGrade_Rare:
-                gradeitem = "Rare";
-                break;
-            case eItemGrade.eItemGrade_SuperRare:
-                gradeitem = "SuperRare";
-                break;
-            case eItemGrade.eItemGrade_Legend:
-                gradeitem = "Legend";
-                break;
-            default:
-                break;
-        }
-
-        itemimage.sprite = GetImage("Item/" + newDTItem.itemIndex);
-        itemgrade.sprite = GetImage("Item/GradeIconImg" + (int)newDTItem.grade);
-        itemName.text = newDTItem.itemName;
-        itemGrade.text = gradeitem;
-
-
-        if (_eScenenum == eScene.eScene_HuntScene)
-        {
-                DataTable_Item equipedItem = null;
-            changebutton.gameObject.SetActive(true);
-                switch (newDTItem.itemType)
-                {
-                case eItemType.eitemType_None:
-                    break;
-                case eItemType.eitemType_Helmet:
-                    equipedItem = player.playerCharacter.equippingItem.equippingHelmet;
-                    break;
-                case eItemType.eitemType_Weapon:
-                    equipedItem = player.playerCharacter.equippingItem.equippingWeapon;
-                    break;
-                case eItemType.eitemType_Accessori:
-                    equipedItem = player.playerCharacter.equippingItem.equippingAcc;
-                    break;
-                default:
-                    break;
-                }
-            CompStatue(itemHP, (float)newDTItem.hp, (float)equipedItem.hp);
-            CompStatue(itemAttack, (float)newDTItem.attack, (float)equipedItem.attack);
-            CompStatue(itemDefence, (float)newDTItem.defence, (float)equipedItem.defence);
-            CompStatue(itemMana, (float)newDTItem.mp, (float)equipedItem.mp);
-            CompStatue(itemSkill, (float)newDTItem.skillAttack, (float)equipedItem.skillAttack);
-            CompStatue(itemCooltime, (float)newDTItem.skillCoolTime, (float)equipedItem.skillCoolTime);
-        }
-        else
-        {
-            itemHP.text = newDTItem.hp.ToString();
-            itemAttack.text = newDTItem.attack.ToString();
-            itemDefence.text = newDTItem.defence.ToString();
-            itemMana.text = newDTItem.mp.ToString();
-            itemSkill.text = newDTItem.skillAttack.ToString();
-            itemCooltime.text = newDTItem.skillCoolTime.ToString();
-        }
-        if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
-            itempanel.GetComponent<RectTransform>().sizeDelta = new Vector2(600, 800);
-    }
-    private void CompStatue(Text _text, float _value, float _value1)
-    {
-        float nNewval = 0;
-        string strArrow = null;
-        Color cTextcolor;
-        if (_value > _value1)
-        {
-            nNewval = _value - _value1;
-            strArrow = "(↑)";
-            cTextcolor = Color.blue;
-        }
-        else
-        {
-            nNewval = _value1 - _value;
-            strArrow = "(↓)";
-            cTextcolor = Color.red;
-        }
-        _text.text = _value.ToString() + " (" + nNewval + ")" + strArrow;
-        _text.color = cTextcolor;
-    }
-    private void ExitItemMenu()
-    {
-        itempanel.gameObject.SetActive(false);
     }
     //------------------------------------------------------------------------------------------------
     //스크린 좌표

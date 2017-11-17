@@ -36,6 +36,7 @@ public class PlayerCharacter : Character
         player.playerCharacter.index = 0;
         player.playerCharacter.name = _name;
         player.playerCharacter.hp = 1200;
+        player.playerCharacter.maxHP = 1200;
         player.playerCharacter.mp = 1;        
         player.playerCharacter.attack = 120;
         player.playerCharacter.defence = 80;
@@ -57,7 +58,7 @@ public class PlayerCharacter : Character
 
         if (player.playerCharacter == null)
             return;
-
+        hp = maxHP;
         string db =
            (int)player.playerCharacter.type + "\t" +
            player.playerCharacter.index + "\t" +

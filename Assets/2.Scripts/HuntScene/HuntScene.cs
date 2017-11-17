@@ -240,7 +240,7 @@ public class HuntScene : MonoBehaviour {
         bResult = true;
         resultPanel.SetActive(bResult);
         nGold = Random.Range(enemy.level * 50, enemy.level * 100);
-        nTemp = nGold / 2;
+        nTemp = nGold - 50;
         goldText.text = "0";
     }    
     void BattleStateResult()
@@ -258,30 +258,33 @@ public class HuntScene : MonoBehaviour {
                 break;
             case eBattleResult.eBattleResult_PlayerWin:
                 //player.playerCharacter.Winner(mainCamera);
-                if (nTemp < nGold)
+
+                if (CGame.Instance.itemPanel.bItemActive == false || enemy.bDropItemCheck == false)
                 {
-                    nTemp += 1;
-                    CGame.Instance.PlaySound((int)eSound.eSound_Coin, GameObject.Find("Main Camera"), false);
-                    goldText.text = nTemp.ToString();
-                    if (Input.GetMouseButtonUp(0))
+                    if (nTemp < nGold)
                     {
-                        nTemp = nGold;
-                        delayTime = 0;
+                        nTemp += 1;
+                        CGame.Instance.PlaySound((int)eSound.eSound_Coin, GameObject.Find("Main Camera"), false);
+                        goldText.text = nTemp.ToString();
+                        //if (Input.GetMouseButtonUp(0))
+                        //{
+                        //    nTemp = nGold;
+                        //    delayTime = 0;
+                        //}
                     }
-                }
-                else
-                {
-                    if (delayTime > 2.0f)
+                    else
                     {
+                        //if (delayTime > 2.0f)
+                        //{
                         player.playerData.gold += nGold;
                         player.updateExp += enemy.exp;
-                        //아이템 먹기
-
-
+                        
                         CGame.Instance.LocalDB_save();
+                        player.playerCharacter.PlayerCharacterSave();
                         CGame.Instance.SceneChange(3);
+                        //}
                     }
-                }
+                }                
                 break;
             case eBattleResult.eBattleResult_EnemyWin:
                 if (delayTime > 1.5f)

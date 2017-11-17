@@ -336,7 +336,8 @@ public class EnemyCharacter : Character
                     goItem = CGame.Instance.GameObject_from_prefab("Item/" + itemIndex);
                     break;
             }
-            CGame.Instance.CallItemInfo(itemIndex, eScene.eScene_HuntScene);
+
+            CGame.Instance.itemPanel.CallItemInfo(itemIndex, eScene.eScene_HuntScene);
             goItem.transform.position = characterObject.transform.position;
         }
     }

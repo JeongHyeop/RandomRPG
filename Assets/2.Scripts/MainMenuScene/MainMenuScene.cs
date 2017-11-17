@@ -171,27 +171,29 @@ public class MainMenuScene : MonoBehaviour {
             itemImg.sprite = null;
         }
     }
+
     private void WeaponButton()
     {
         if (player.playerCharacter.equippingItem.weaponIndex != -1)
         {
-            CGame.Instance.CallItemInfo(player.playerCharacter.equippingItem.weaponIndex, eScene.eScene_MainMenu);
+            CGame.Instance.itemPanel.CallItemInfo(player.playerCharacter.equippingItem.weaponIndex, eScene.eScene_MainMenu);
         }
     }
     private void HelmetButton()
     {
         if (player.playerCharacter.equippingItem.helmetIndex != -1)
         {
-            CGame.Instance.CallItemInfo(player.playerCharacter.equippingItem.helmetIndex, eScene.eScene_MainMenu);
+            CGame.Instance.itemPanel.CallItemInfo(player.playerCharacter.equippingItem.helmetIndex, eScene.eScene_MainMenu);
         }
-        }
+    }
     private void AccButton()
     {
         if (player.playerCharacter.equippingItem.accessoriIndex != -1)
         {
-            CGame.Instance.CallItemInfo(player.playerCharacter.equippingItem.accessoriIndex, eScene.eScene_MainMenu);
+            CGame.Instance.itemPanel.CallItemInfo(player.playerCharacter.equippingItem.accessoriIndex, eScene.eScene_MainMenu);
         }
-        }
+    }
+
     IEnumerator LevelUp()
     {
         if (player.updateExp <= 0)
@@ -269,6 +271,7 @@ public class MainMenuScene : MonoBehaviour {
                     (player.playerCharacter.equippingItem.equippingHelmet.hp +
                     player.playerCharacter.equippingItem.equippingAcc.hp +
                     player.playerCharacter.equippingItem.equippingWeapon.hp).ToString() + ")";
+                    player.playerCharacter.maxHP = player.playerCharacter.hp;
                     break;
                 case eCharacterInformation.eCharacterInfo_MP:
                     break;

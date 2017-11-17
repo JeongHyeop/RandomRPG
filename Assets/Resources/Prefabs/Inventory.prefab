@@ -223,7 +223,7 @@ GameObject:
   - component: {fileID: 222062275045275226}
   - component: {fileID: 114270573585860302}
   m_Layer: 5
-  m_Name: Itemtype
+  m_Name: ItemGrade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -374,6 +374,7 @@ GameObject:
   - component: {fileID: 224817877851147782}
   - component: {fileID: 222967508212792698}
   - component: {fileID: 114428639627436976}
+  - component: {fileID: 114266740250260438}
   m_Layer: 5
   m_Name: Inventory
   m_TagString: Untagged
@@ -653,6 +654,29 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114266740250260438
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1763418486519578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf6ef20cfebb6845a2babbfff2c9c24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemimage: {fileID: 114792286469533270}
+  itemgrade: {fileID: 114307547705812066}
+  itemName: {fileID: 114645890075559978}
+  itemGrade: {fileID: 114270573585860302}
+  itemHP: {fileID: 114139859128134826}
+  itemAttack: {fileID: 114940052028561294}
+  itemDefence: {fileID: 114879031753659504}
+  itemMana: {fileID: 114122142727600944}
+  itemSkill: {fileID: 114936319594094488}
+  itemCooltime: {fileID: 114298165833612528}
+  exitbutton: {fileID: 114879620598699030}
+  changebutton: {fileID: 114696513650764038}
 --- !u!114 &114270573585860302
 MonoBehaviour:
   m_ObjectHideFlags: 1

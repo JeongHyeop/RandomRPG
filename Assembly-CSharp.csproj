@@ -64,6 +64,7 @@
      <Compile Include="Assets\2.Scripts\HuntScene\JoyStick.cs" />
      <Compile Include="Assets\2.Scripts\HuntScene\Skill.cs" />
      <Compile Include="Assets\2.Scripts\HuntScene\SkillManager.cs" />
+     <Compile Include="Assets\2.Scripts\ItemPanel.cs" />
      <Compile Include="Assets\2.Scripts\LogoScene\LogoScene.cs" />
      <Compile Include="Assets\2.Scripts\MainMenuScene\MainMenuScene.cs" />
      <Compile Include="Assets\2.Scripts\MainMenuScene\SkyBoxCamera.cs" />
