@@ -188,8 +188,7 @@ public class PlayerCharacter : Character
                 newAcc = CGame.Instance.GameObject_from_prefab("Item/" + equippingItem.accessoriIndex);
                 newAcc.transform.parent = oldBack.transform;
                 newAcc.transform.localPosition = Vector3.zero;
-                newAcc.transform.localRotation = new Quaternion(-0.5f, 0, 0, 0.5f);
-
+                //newAcc.transform.localRotation = new Quaternion(-0.5f, 0, 0, 0.5f);
                 equippingItem.equippingAcc = CGame.Instance.dataTable.GetItem(equippingItem.accessoriIndex);
             }
             else

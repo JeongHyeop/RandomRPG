@@ -19,10 +19,15 @@ public class ItemPanel : MonoBehaviour {
     public GameObject itemPanelGO;
     public bool bItemActive { private set; get; }
 
+    eItemType newItemType = eItemType.eitemType_None;
+    int nItemIndex = -1;
+
 	void Start () {
         //초기화
         itemPanelGO = this.gameObject;
         bItemActive = true;
+        exitbutton.onClick.AddListener(ExitItemMenu);
+        changebutton.onClick.AddListener(ChangeButton);
 	}
 	
     public void CallItemInfo(int _nItemIndex, eScene _eScenenum)
@@ -45,8 +50,7 @@ public class ItemPanel : MonoBehaviour {
         itemPanelGO.transform.position = itemPanelGO.transform.parent.position;
 
         string gradeitem = null;
-        changebutton.gameObject.SetActive(false);
-        exitbutton.onClick.AddListener(ExitItemMenu);
+        changebutton.gameObject.SetActive(false);        
 
         switch (newDTItem.grade)
         {
@@ -94,7 +98,8 @@ public class ItemPanel : MonoBehaviour {
                 default:
                     break;
             }
-            changebutton.onClick.AddListener(delegate { ChangeButton(newDTItem.itemType, _nItemIndex); });  
+            newItemType = newDTItem.itemType;
+            nItemIndex = newDTItem.itemIndex;
 
             CompStatue(itemHP, (float)newDTItem.hp, (float)equipedItem.hp);
             CompStatue(itemAttack, (float)newDTItem.attack, (float)equipedItem.attack);
@@ -146,23 +151,25 @@ public class ItemPanel : MonoBehaviour {
         itemPanelGO.transform.parent = CGame.Instance.gameObject.transform;
         bItemActive = false; itemPanelGO.SetActive(bItemActive);
     }
-    private void ChangeButton(eItemType _eItemType, int _nItemIndex)
+    private void ChangeButton()
     {
-        switch (_eItemType)
+        Debug.Log("ChangeType:" + nItemIndex);
+        switch (newItemType)
         {
             case eItemType.eitemType_Helmet:
                 //장착 사운드 넣기
-                CGame.Instance.player.playerCharacter.equippingItem.helmetIndex = _nItemIndex;
+                CGame.Instance.player.playerCharacter.equippingItem.helmetIndex = nItemIndex;
                 break;
             case eItemType.eitemType_Weapon:
                 //장착 사운드 넣기
-                CGame.Instance.player.playerCharacter.equippingItem.weaponIndex = _nItemIndex;
+                CGame.Instance.player.playerCharacter.equippingItem.weaponIndex = nItemIndex;
                 break;
             case eItemType.eitemType_Accessori:
                 //장착 사운드 넣기
-                CGame.Instance.player.playerCharacter.equippingItem.accessoriIndex = _nItemIndex;
+                CGame.Instance.player.playerCharacter.equippingItem.accessoriIndex = nItemIndex;
                 break;
         }
+
         itemPanelGO.transform.parent = CGame.Instance.gameObject.transform;
         bItemActive = false; itemPanelGO.SetActive(bItemActive);
     }
