@@ -78,7 +78,7 @@ public class ItemPanel : MonoBehaviour {
         itemName.text = newDTItem.itemName;
         itemGrade.text = gradeitem;
 
-        if (_eScenenum == eScene.eScene_HuntScene)
+        if (_eScenenum != eScene.eScene_MainMenu)
         {
             DataTable_Item equipedItem = null;
             changebutton.gameObject.SetActive(true);
@@ -172,5 +172,7 @@ public class ItemPanel : MonoBehaviour {
 
         itemPanelGO.transform.parent = CGame.Instance.gameObject.transform;
         bItemActive = false; itemPanelGO.SetActive(bItemActive);
+        CGame.Instance.player.playerCharacter.PlayerCharacterSave();
+        //CGame.Instance.player.playerCharacter.PlayerCharacterLoad(CGame.Instance.player.playerCharacter.characterObject);
     }
 }

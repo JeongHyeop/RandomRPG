@@ -414,6 +414,7 @@ public class MainMenuScene : MonoBehaviour {
             mapPlane.material = menuMapData.menuSceneData[nCurIndex].plane;
             sky.material = menuMapData.menuSceneData[nCurIndex].sky;
             SetUIState((eUIState)nCurIndex);
+            UIItemLoad();
         }
         else
             StartCoroutine(CGame.Instance.ICallNotice("Level Up..."));
@@ -427,6 +428,7 @@ public class MainMenuScene : MonoBehaviour {
             mapPlane.material = menuMapData.menuSceneData[nCurIndex].plane;
             sky.material = menuMapData.menuSceneData[nCurIndex].sky;
             SetUIState((eUIState)nCurIndex);
+            UIItemLoad();
         }
         else
             StartCoroutine(CGame.Instance.ICallNotice("Level Up..."));
