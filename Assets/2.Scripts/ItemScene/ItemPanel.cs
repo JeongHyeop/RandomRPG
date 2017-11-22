@@ -78,7 +78,7 @@ public class ItemPanel : MonoBehaviour {
         itemName.text = newDTItem.itemName;
         itemGrade.text = gradeitem;
 
-        if (_eScenenum == eScene.eScene_HuntScene)
+        if (_eScenenum != eScene.eScene_MainMenu)
         {
             DataTable_Item equipedItem = null;
             changebutton.gameObject.SetActive(true);
@@ -95,12 +95,9 @@ public class ItemPanel : MonoBehaviour {
                 case eItemType.eitemType_Accessori:
                     equipedItem = CGame.Instance.player.playerCharacter.equippingItem.equippingAcc;
                     break;
-                default:
-                    break;
             }
             newItemType = newDTItem.itemType;
             nItemIndex = newDTItem.itemIndex;
-
             CompStatue(itemHP, (float)newDTItem.hp, (float)equipedItem.hp);
             CompStatue(itemAttack, (float)newDTItem.attack, (float)equipedItem.attack);
             CompStatue(itemDefence, (float)newDTItem.defence, (float)equipedItem.defence);
@@ -167,9 +164,13 @@ public class ItemPanel : MonoBehaviour {
                 //장착 사운드 넣기
                 CGame.Instance.player.playerCharacter.equippingItem.accessoriIndex = nItemIndex;
                 break;
+
+
         }
 
         itemPanelGO.transform.parent = CGame.Instance.gameObject.transform;
         bItemActive = false; itemPanelGO.SetActive(bItemActive);
+
+        CGame.Instance.player.playerCharacter.PlayerCharacterSave();
     }
 }

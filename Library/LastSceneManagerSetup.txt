@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/1.Scenes/1.LogoScene.unity
+- path: Assets/1.Scenes/7.ShopScene.unity
   isLoaded: 1
   isActive: 1

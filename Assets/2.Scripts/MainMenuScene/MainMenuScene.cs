@@ -414,6 +414,7 @@ public class MainMenuScene : MonoBehaviour {
             mapPlane.material = menuMapData.menuSceneData[nCurIndex].plane;
             sky.material = menuMapData.menuSceneData[nCurIndex].sky;
             SetUIState((eUIState)nCurIndex);
+            UIItemLoad();
         }
         else
             StartCoroutine(CGame.Instance.ICallNotice("Level Up..."));
@@ -427,6 +428,7 @@ public class MainMenuScene : MonoBehaviour {
             mapPlane.material = menuMapData.menuSceneData[nCurIndex].plane;
             sky.material = menuMapData.menuSceneData[nCurIndex].sky;
             SetUIState((eUIState)nCurIndex);
+            UIItemLoad();
         }
         else
             StartCoroutine(CGame.Instance.ICallNotice("Level Up..."));
@@ -499,7 +501,7 @@ public class MainMenuScene : MonoBehaviour {
             uiCenterObject[nCurIndex].SetActive(bCenterButtonCheck);
 
             //추후 다시 작업
-            if(bCenterButtonCheck == true && uiState == eUIState.eUIState_Rank || uiState == eUIState.eUIState_Shop)
+            if(bCenterButtonCheck == true && uiState == eUIState.eUIState_Rank )
                 StartCoroutine(CGame.Instance.ICallNotice("Coming Soon!"));
 
             CGame.Instance.LocalDB_save();
