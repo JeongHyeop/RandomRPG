@@ -34,27 +34,46 @@ public class ItemShopPanel : MonoBehaviour
             CGame.Instance.CallNotice("Not Enough Money...");
             return;
         }
+        player.playerData.gold -= nBaseitemprice;
         switch (_eWeapontype)
         {
             case eWeaponType.eWeaponType_Club:
-                CGame.Instance.itemPanel.CallItemInfo(0, eScene.eScene_ItemScene);
+                CGame.Instance.nBuyItemindex = 0;
+                CGame.Instance.SceneChange(5);
                 break;
             case eWeaponType.eWeaponType_Dagger:
-                CGame.Instance.itemPanel.CallItemInfo(1, eScene.eScene_ItemScene);
+                CGame.Instance.nBuyItemindex = 1;
+                CGame.Instance.SceneChange(5);
                 break;
             case eWeaponType.eWeaponType_Wand:
-                CGame.Instance.itemPanel.CallItemInfo(2, eScene.eScene_ItemScene);
+                CGame.Instance.nBuyItemindex = 2;
+                CGame.Instance.SceneChange(5);
                 break;
         }
-        player.playerData.gold -= nBaseitemprice;
+        
 
     }
     void RandomBox()
     {
-
+        if (player.playerData.gold < nRandomboxprice)
+        {
+            CGame.Instance.CallNotice("Not Enough Money...");
+            return;
+        }
+        player.playerData.gold -= nRandomboxprice;
+        CGame.Instance.nBuyItemindex = Random.Range(0, 10);
+        CGame.Instance.bRandomCheck = true;
+        CGame.Instance.SceneChange(5);
     }
     void BuyLegendItem()
     {
-
+        if (player.playerData.gold < nLegenditemprice)
+        {
+            CGame.Instance.CallNotice("Not Enough Money...");
+            return;
+        }
+        player.playerData.gold -= nLegenditemprice;
+        CGame.Instance.nBuyItemindex = 12;
+        CGame.Instance.SceneChange(5);
     }
 }

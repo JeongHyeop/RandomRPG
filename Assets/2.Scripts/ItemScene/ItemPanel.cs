@@ -167,10 +167,9 @@ public class ItemPanel : MonoBehaviour {
 
 
         }
-
+       
         itemPanelGO.transform.parent = CGame.Instance.gameObject.transform;
         bItemActive = false; itemPanelGO.SetActive(bItemActive);
-
         CGame.Instance.player.playerCharacter.PlayerCharacterSave();
     }
 }
