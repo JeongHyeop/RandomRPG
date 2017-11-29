@@ -603,6 +603,27 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 645129367}
+--- !u!1 &809399332 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1127372454084748, guid: 0a941d0a855a38940b79d572a55d7859,
+    type: 2}
+  m_PrefabInternal: {fileID: 1371105428}
+--- !u!114 &809399333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 809399332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43eaa4415fdf63a4cb9bb67d3559c581, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemspot: {fileID: 0}
+  exitpbutton: {fileID: 0}
+  bRandombool: 0
+  eitemtypenum: 0
+  nItemindex: 0
 --- !u!1 &830424249
 GameObject:
   m_ObjectHideFlags: 0
@@ -807,8 +828,14 @@ Prefab:
         type: 2}
       propertyPath: extipbutton
       value: 
-      objectReference: {fileID: 372105564}
-    m_RemovedComponents: []
+      objectReference: {fileID: 0}
+    - target: {fileID: 114072223345258730, guid: 0a941d0a855a38940b79d572a55d7859,
+        type: 2}
+      propertyPath: itemspot
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 114072223345258730, guid: 0a941d0a855a38940b79d572a55d7859, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 0a941d0a855a38940b79d572a55d7859, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1574268969

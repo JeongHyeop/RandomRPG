@@ -34,8 +34,6 @@ public class CGame : MonoBehaviour
 
     //아이템
     public ItemPanel itemPanel;
-    public int nBuyItemindex;
-    public bool bRandomCheck;
     //사운드
     public float effectSound = 0.5f;
     public float bgmSound = 0.5f;
@@ -74,7 +72,7 @@ public class CGame : MonoBehaviour
         //사운드 로드
         SoundLoad();
 
-        DontDestroyOnLoad(this);        
+        DontDestroyOnLoad(this);
     }
 
 
@@ -392,7 +390,7 @@ public class CGame : MonoBehaviour
     public IEnumerator ICallNotice(string _str)
     {
         CallNotice(_str);
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.0f);
         if (CGame.Instance.notice != null)
             Destroy(CGame.Instance.notice);
     }

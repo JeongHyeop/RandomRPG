@@ -7,31 +7,54 @@ public class ShopScene : MonoBehaviour {
     public GameObject itemspot;
     GameObject itemPrefab;
     //public Button equipbutton;
-    public Button extipbutton;
+    public Button exitpbutton;
+    public bool bRandombool = false;
     public eItemType eitemtypenum;
     public int nItemindex;
 	// Use this for initialization
 	void Start () {
-        extipbutton.gameObject.SetActive(false);
-        Init(CGame.Instance.nBuyItemindex, eScene.eScene_ItemScene,CGame.Instance.bRandomCheck);
+        nItemindex = ItemShopPanel.nBuyItem;
+        bRandombool = ItemShopPanel.bRandomBox;
+        itemspot = GameObject.Find("Itemspot");
+        eitemtypenum = CGame.Instance.dataTable.dataTableItem[nItemindex].itemType;
+        exitpbutton = GameObject.Find("ExitButton").GetComponent<Button>();
+        exitpbutton.gameObject.SetActive(false);
+        Init(nItemindex, eScene.eScene_ItemScene, bRandombool);
         //equipbutton.onClick.AddListener(delegate { ItemEquip(nItemindex,eitemtypenum); });
-        extipbutton.onClick.AddListener(ExitScene);
-
+        exitpbutton.onClick.AddListener(ExitScene);
     }
+
+
 	public void Init(int _itemindex,eScene _Scenenum,bool _Randombox)
     {
         if (_Randombox == true)
         {
             
             StartCoroutine(CGame.Instance.ICallNotice("RandomBox Open!"));
-            CGame.Instance.bRandomCheck = false;
+            ItemShopPanel.bRandomBox = false;
         }
-        extipbutton.gameObject.SetActive(true);
+        exitpbutton.gameObject.SetActive(true);
         itemPrefab = CGame.Instance.GameObject_from_prefab("Item/" + _itemindex);
         itemPrefab.transform.parent = itemspot.transform;
-        itemPrefab.transform.localScale = new Vector3(2, 2, 2);
-        itemPrefab.transform.localPosition = new Vector3(0,0,0);
-        itemPrefab.transform.rotation = Quaternion.Euler(180, 0, 0);
+        itemPrefab.transform.localPosition = new Vector3(0, 0, 0);
+        switch (eitemtypenum)
+        {
+            case eItemType.eitemType_Helmet:
+                itemPrefab.transform.localScale = new Vector3(1, 1, 1);
+                itemPrefab.transform.rotation = Quaternion.Euler(-90, 0, 0);
+                break;
+            case eItemType.eitemType_Weapon:
+                itemPrefab.transform.localScale = new Vector3(2, 2, 2);
+                itemPrefab.transform.rotation = Quaternion.Euler(180, 0, 0);
+                break;
+            case eItemType.eitemType_Accessori:
+                itemPrefab.transform.localScale = new Vector3(1, 1, 1);
+                itemPrefab.transform.rotation = Quaternion.Euler(0, 0, 0);
+                break;
+        }
+
+
+
         CGame.Instance.PlaySound((int)eSound.eSound_LevelUp, GameObject.Find("Main Camera"), false);
 
         StartCoroutine(ItemPopup(_itemindex));
@@ -65,6 +88,8 @@ public class ShopScene : MonoBehaviour {
     void ExitScene()
     {
         //CGame.Instance.SceneChange((int)eScene.eScene_MainMenu);
+        if(CGame.Instance.itemPanel.bItemActive == true)
+        CGame.Instance.itemPanel.ExitItemMenu();
         UnityEngine.SceneManagement.SceneManager.LoadScene(3);
     }
 

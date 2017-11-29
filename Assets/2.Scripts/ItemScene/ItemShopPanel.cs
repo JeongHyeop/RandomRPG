@@ -12,9 +12,12 @@ public class ItemShopPanel : MonoBehaviour
     public Button randombox;
     Player player;
     MainMenuScene mainmenu;
+    public static int nBuyItem;
+    public static bool bRandomBox = false;
+    
     //가격
-    const int nBaseitemprice = 1000;
-    const int nRandomboxprice = 100000;
+    const int nBaseitemprice = 1;
+    const int nRandomboxprice = 1;
     const int nLegenditemprice = 1000000;
     // Use this for initialization
     void Awake()
@@ -35,34 +38,63 @@ public class ItemShopPanel : MonoBehaviour
             return;
         }
         player.playerData.gold -= nBaseitemprice;
+        CGame.Instance.LocalDB_save();
         switch (_eWeapontype)
         {
             case eWeaponType.eWeaponType_Club:
-                CGame.Instance.nBuyItemindex = 0;
-                CGame.Instance.SceneChange(5);
+                nBuyItem = 0;
+                
                 break;
             case eWeaponType.eWeaponType_Dagger:
-                CGame.Instance.nBuyItemindex = 1;
-                CGame.Instance.SceneChange(5);
+                nBuyItem = 1;
+                
                 break;
             case eWeaponType.eWeaponType_Wand:
-                CGame.Instance.nBuyItemindex = 2;
-                CGame.Instance.SceneChange(5);
+                nBuyItem = 2;
+                
                 break;
         }
+        CGame.Instance.SceneChange(5);
         
-
     }
     void RandomBox()
     {
+        List<int> nList = new List<int>();
+        int nIndex =0;
         if (player.playerData.gold < nRandomboxprice)
         {
             CGame.Instance.CallNotice("Not Enough Money...");
             return;
         }
+        List<DataTable_Item> itemtable = new List<DataTable_Item>();
+        for (int i = 0; i < CGame.Instance.dataTable.dataTableItem.Length-1; i++)
+        {
+            itemtable.Add(CGame.Instance.dataTable.dataTableItem[i]);
+        }
+        itemtable.Sort((x, y) => x.grade.CompareTo(y.grade));
+        for (int i = 0; i < CGame.Instance.dataTable.dataTableItem.Length-2; i++)
+        {
+            if ( itemtable[i].grade != itemtable[i + 1].grade)
+                nList.Add(i);
+        }
+        int nRandomNum = Random.Range(1, 100);
+
+        if (nRandomNum <51)
+            nIndex = Random.Range(0, nList[0]);
+        else if (nRandomNum < 80)
+            nIndex = Random.Range(nList[0]+1, nList[1]);
+        else if (nRandomNum < 95)
+            nIndex = Random.Range(nList[1] + 1, nList[2]);
+        else if(nRandomNum < 99)
+            nIndex = Random.Range(nList[2] + 1, nList[3]);
+        else
+            nIndex = Random.Range(nList[3] + 1, CGame.Instance.dataTable.dataTableItem.Length - 1);
+
+        nBuyItem = itemtable[nIndex].itemIndex;
+        //itemtable[nIndex].itemType == eItemType.eitemType_Weapon ? 
         player.playerData.gold -= nRandomboxprice;
-        CGame.Instance.nBuyItemindex = Random.Range(0, 10);
-        CGame.Instance.bRandomCheck = true;
+        CGame.Instance.LocalDB_save();
+        bRandomBox = true;
         CGame.Instance.SceneChange(5);
     }
     void BuyLegendItem()
@@ -73,7 +105,8 @@ public class ItemShopPanel : MonoBehaviour
             return;
         }
         player.playerData.gold -= nLegenditemprice;
-        CGame.Instance.nBuyItemindex = 12;
+        CGame.Instance.LocalDB_save();
+        nBuyItem = 12;
         CGame.Instance.SceneChange(5);
     }
 }
